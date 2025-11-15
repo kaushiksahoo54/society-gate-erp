@@ -18,6 +18,54 @@ const initialInvoices = [
   { id: 'INV-103', unit: 'C-507', month: 'Nov 2025', amount: 2600, status: 'Overdue', dueDate: '2025-11-05' }
 ]
 
+const marketplaceCategories = [
+  'Furniture',
+  'Electronics',
+  'Home Appliances',
+  'Vehicles',
+  'Services',
+  'Books & Learning',
+  'Sports & Fitness',
+  'Miscellaneous'
+]
+
+const initialMarketplaceItems = [
+  {
+    id: 501,
+    title: '4-Seater Teak Dining Set',
+    category: 'Furniture',
+    price: 8500,
+    condition: 'Good',
+    description: 'Solid teak dining table with 4 cushioned chairs. Minor scratches, perfect for medium-sized dining rooms.',
+    contact: 'Vikram (A-302) · 98765 43210',
+    status: 'Available',
+    createdAt: '2025-11-06T10:15:00.000Z'
+  },
+  {
+    id: 502,
+    title: 'Mi 50" 4K Smart TV',
+    category: 'Electronics',
+    price: 22000,
+    condition: 'Like New',
+    description: 'Purchased in Aug 2024. Includes original box, voice remote, and wall mount kit. Reason for selling: upgrading.',
+    contact: 'Meera (B-110) · 98765 40123',
+    status: 'Available',
+    createdAt: '2025-11-09T18:40:00.000Z'
+  },
+  {
+    id: 503,
+    title: 'Weekend Yoga Sessions',
+    category: 'Services',
+    price: 1200,
+    condition: 'Service',
+    description: 'Certified yoga instructor conducting Saturday & Sunday morning sessions on the clubhouse terrace. 6 students per batch.',
+    contact: 'Arun (C-507) · 98765 12222',
+    status: 'Sold',
+    createdAt: '2025-10-28T05:45:00.000Z',
+    soldAt: '2025-11-08T07:30:00.000Z'
+  }
+]
+
 export const useAppStore = create((set, get) => ({
   sidebarOpen: true,
   toggleSidebar: () => set(s => ({ sidebarOpen: !s.sidebarOpen })),
@@ -48,5 +96,24 @@ export const useAppStore = create((set, get) => ({
     { id: 'G-01', name: 'Suresh', role: 'Guard', shift: 'Day', phone: '9990001111' },
     { id: 'G-02', name: 'Mahesh', role: 'Guard', shift: 'Night', phone: '9990002222' },
     { id: 'HK-11', name: 'Lata', role: 'Housekeeping', shift: 'Day', phone: '9990003333' }
-  ]
+  ],
+
+  marketplaceCategories,
+  marketplaceItems: initialMarketplaceItems,
+  addMarketplaceItem: (item) => set(s => ({
+    marketplaceItems: [
+      {
+        id: Date.now(),
+        status: 'Available',
+        createdAt: new Date().toISOString(),
+        ...item
+      },
+      ...s.marketplaceItems
+    ]
+  })),
+  markMarketplaceItemSold: (id) => set(s => ({
+    marketplaceItems: s.marketplaceItems.map(entry => entry.id === id
+      ? { ...entry, status: 'Sold', soldAt: new Date().toISOString() }
+      : entry)
+  }))
 }))

@@ -39,6 +39,7 @@ Thumbs.db
 # ==============================
 # Environment / Credentials
 # ==============================
+backend/credentials.json
 .env
 .env.*
 !.env.example
